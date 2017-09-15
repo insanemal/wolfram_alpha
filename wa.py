@@ -28,10 +28,13 @@ def main():
     query = args.query
     r = requests.get("http://api.wolframalpha.com/v2/query?input={}&appid={}&format=plaintext&output=json".format(query,key))
     j = r.json()['queryresult']
-    if args.short:
-        print_short(j)
+    if j['success']:
+        if args.short:
+            print_short(j)
+        else:
+            print_long(j)
     else:
-        print_long(j)
+        print 'Query failed. Check spelling/formating'
 
 def print_long(j):
     for field in j['pods']:
